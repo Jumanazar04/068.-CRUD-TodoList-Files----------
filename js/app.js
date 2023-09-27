@@ -14,7 +14,7 @@ const minuteEl = document.getElementById('minute')
 const secondEl = document.getElementById('second')
 const closeEl = document.getElementById('close')
 const messageCreate = document.getElementById('message-create')
-const timeContainer = document.getElementById('time-container')
+
 
 function showMessege(where, massege){
     document.getElementById(`${where}`).textContent = massege;
@@ -31,6 +31,7 @@ let todos = JSON.parse(localStorage.getItem('list'))
     if(todos.length){
          showTodos()
     }
+
 // time
 function getTime (){
     const now = new Date()
@@ -38,15 +39,34 @@ function getTime (){
     const day = now.getDate() < 10 ? '0' +  (now.getDate() ) : now.getDate();
     const month =
      now.getMonth() < 10 ? '0' +  (now.getMonth() + 1) : now.getMonth();
-    const year = now.getFullYear() 
+    const year = now.getFullYear()
+    
+    const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June', 
+        'July',
+        'August',
+        'September',
+        'Oktober',
+        'November',
+        'December',
+    ]
+    const month_title = now.getMonth()
+    fullDay.textContent = `${day} ${months[month_title]}, ${year} `
 
     return `${day}.${month}.${year}`
 }
 
+getTime()
+
 const now = new Date()
 const second = now.getSeconds() < 10 ? '0' +  (now.getSeconds() ) : now.getSeconds();
 
-timeContainer.textContent = getTimeOne()
+
 
 
 function getTimeOne (){
@@ -56,8 +76,16 @@ function getTimeOne (){
     const minute = now.getMinutes() < 10 ? '0' +  (now.getMinutes() ) : now.getMinutes(); 
     const second = now.getSeconds() < 10 ? '0' +  (now.getSeconds() ) : now.getSeconds();
 
+    hourEl.textContent = hour
+    minuteEl.textContent = minute
+        secondEl.textContent = second
     return `${hour}:${minute}`
 }
+
+setInterval(() => {
+    getTimeOne()
+}, 1000)
+
 
 function showTodos(){
     const todos = JSON.parse(localStorage.getItem('list'))
@@ -69,7 +97,7 @@ function showTodos(){
           <div class="todo-icons">
             <span class="opacity-50 me-2">${item.time}</span>
             <img src="./img/edit.svg" alt="edit" width="25" height="25">
-            <img src="./img/delete.svg" alt="edit" width="25" height="25">
+            <img onclick=(deleteTodo(${i})) src="./img/delete.svg" alt="edit" width="25" height="25">
           </div>
         </li>
         `
@@ -94,3 +122,13 @@ formCreate.addEventListener('submit', (e) => {
         showMessege('message-create', 'Please, Enter some text...')
     }
 })
+
+// delete todo
+
+function deleteTodo(id){
+    const deletedTodos = todos.filter((item, i) =>{
+        return i !== id
+    })
+
+    
+}
