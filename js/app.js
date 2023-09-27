@@ -27,7 +27,40 @@ let todos = JSON.parse(localStorage.getItem('list'))
     ? JSON.parse(localStorage.getItem('list'))
     : []
 
+    if(todos.length){
+         showTodos()
+    }
+// time
+function getTime (){
+    const now = new Date()
 
+    const day = now.getDate()
+    const month = now.getMonth()
+    const year = now.getFullYear()
+
+    console.log(day, month, year);
+
+    
+}
+
+getTime()
+
+function showTodos(){
+    const todos = JSON.parse(localStorage.getItem('list'))
+    listGroupTodo.innerHTML = ''
+    todos.forEach((item, i) => {
+        listGroupTodo.innerHTML += `
+        <li class="list-group-item d-flex justify-content-between">
+            ${item.text}
+          <div class="todo-icons">
+            <span class="opacity-50 me-2">27.09.2023</span>
+            <img src="./img/edit.svg" alt="edit" width="25" height="25">
+            <img src="./img/delete.svg" alt="edit" width="25" height="25">
+          </div>
+        </li>
+        `
+    });
+}
 function setTodos() {
     localStorage.setItem('list', JSON.stringify(todos))
 }
@@ -42,6 +75,7 @@ formCreate.addEventListener('submit', (e) => {
         todos.push( { text: todoText, time: '16:20 21.09.2023', completed: false})
         console.log(todos);
         setTodos()
+        showTodos()
     } else {
         showMessege('message-create', 'Please, Enter some text...')
     }
