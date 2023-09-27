@@ -14,6 +14,7 @@ const minuteEl = document.getElementById('minute')
 const secondEl = document.getElementById('second')
 const closeEl = document.getElementById('close')
 const messageCreate = document.getElementById('message-create')
+const timeContainer = document.getElementById('time-container')
 
 function showMessege(where, massege){
     document.getElementById(`${where}`).textContent = massege;
@@ -42,11 +43,18 @@ function getTime (){
     return `${day}.${month}.${year}`
 }
 
+const now = new Date()
+const second = now.getSeconds() < 10 ? '0' +  (now.getSeconds() ) : now.getSeconds();
+
+timeContainer.textContent = getTimeOne()
+
+
 function getTimeOne (){
     const now = new Date()
 
     const hour = now.getHours() < 10 ? '0' +  (now.getHours() ) : now.getHours();
     const minute = now.getMinutes() < 10 ? '0' +  (now.getMinutes() ) : now.getMinutes(); 
+    const second = now.getSeconds() < 10 ? '0' +  (now.getSeconds() ) : now.getSeconds();
 
     return `${hour}:${minute}`
 }
