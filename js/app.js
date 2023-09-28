@@ -14,6 +14,7 @@ const minuteEl = document.getElementById('minute')
 const secondEl = document.getElementById('second')
 const closeEl = document.getElementById('close')
 const messageCreate = document.getElementById('message-create')
+const editInput = document.querySelector('#input-edit')
 
 
 function showMessege(where, massege){
@@ -32,6 +33,7 @@ let todos = JSON.parse(localStorage.getItem('list'))
          showTodos()
     }
 
+let editItemId 
 // time
 function getTime (){
     const now = new Date()
@@ -91,11 +93,11 @@ function showTodos(){
     listGroupTodo.innerHTML = ''
     todos.forEach((item, i) => {
         listGroupTodo.innerHTML += `
-        <li ondblclick="setCompleted(${i})" class="list-group-item d-flex justify-content-between ${item.completed == true ? 'complated' : ''}">
+        <li ondblclick=(setCompleted(${i})) class="list-group-item d-flex justify-content-between ${item.completed == true ? 'complated' : ''}">
             ${item.text}
           <div class="todo-icons">
             <span class="opacity-50 me-2">${item.time}</span>
-            <img src="./img/edit.svg" alt="edit" width="25" height="25">
+            <img onclick=(editTodo(${i})) src="./img/edit.svg" alt="edit" width="25" height="25">
             <img onclick=(deleteTodo(${i})) src="./img/delete.svg" alt="edit" width="25" height="25">
           </div>
         </li>
@@ -150,4 +152,46 @@ function setCompleted(id){
     showTodos()
 }
 
-console.log(setCompleted());
+// editTodo
+
+formEdit.addEventListener('submit', (e)=>{
+    e.preventDefault()
+    const todoText = editInput.value.trim()
+    
+    formEdit.reset()
+    if (todoText.length) {
+        todos.splice(editItemId, 1, { 
+            text: todoText, 
+            time: `${getTimeOne()} ${getTime()}`, 
+            completed: false})
+        setTodos()
+        showTodos()
+        close()
+    } else {
+        showMessege('message-edit', 'Please, Enter some text...')
+    }
+})
+
+function editTodo(id){
+    editItemId = id
+    open()
+}
+
+closeEl.addEventListener('click', close)
+overlay.addEventListener('click', close)
+
+document.addEventListener('keydown', (e) => {
+    if(e.which == 81){
+        close()
+    }
+})
+
+function open(){
+    modal.classList.remove('hidden')
+    overlay.classList.remove('hidden')
+}
+
+function close(){
+    modal.classList.add('hidden')
+    overlay.classList.add('hidden')
+}
