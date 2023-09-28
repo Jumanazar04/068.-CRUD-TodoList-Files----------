@@ -86,13 +86,12 @@ setInterval(() => {
     getTimeOne()
 }, 1000)
 
-
 function showTodos(){
     const todos = JSON.parse(localStorage.getItem('list'))
     listGroupTodo.innerHTML = ''
     todos.forEach((item, i) => {
         listGroupTodo.innerHTML += `
-        <li ondblclick = "setCompleted(${i})" class="list-group-item d-flex justify-content-between ${item.completed == true ? 'complated' : ''}">
+        <li ondblclick="setCompleted(${i})" class="list-group-item d-flex justify-content-between ${item.completed == true ? 'complated' : ''}">
             ${item.text}
           <div class="todo-icons">
             <span class="opacity-50 me-2">${item.time}</span>
@@ -138,14 +137,17 @@ function deleteTodo(id){
 // setCompleted
 
 function setCompleted(id){
-    const setCompletedTodos = todos.map((item, i) =>{
-        if(id == i){
-            return {...item, completed: item.completed == true ? false : true}
+    const completedTodos = todos.map((item, i) => {
+        if( id == i){
+            return { ...item, completed: item.completed == true ? false : true}
         }else {
-            return {...item}
+            return { ...item }
         }
-    }) 
-    todos = setCompletedTodos
+    })
+
+    todos = completedTodos
     setTodos()
     showTodos()
 }
+
+console.log(setCompleted());
